@@ -35,7 +35,7 @@ const ItemDetail = ({ item }) => {
             handleSubtract={handleSubtract}
             handleAdd={() => {
               toast.success("Producto agregado al carrito", {
-                position: toast.POSITION.TOP_LEFT,
+                position: "top-left",
               });
               addInCart(item, cantidad);
             }}
