@@ -5,11 +5,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
-  const { cart, totalPrice, emptyCart } = useContext(CartContext);
+  const { cart, totalPrice, emptyCart, removeFromCart } = useContext(CartContext);
 
   const handleEmpty = () => {
     toast.error("Se ha vaciado el carrito");
     emptyCart();
+  };
+  const handleRemoveItem = (id) => {
+    toast.info("Producto eliminado del carrito");
+    removeFromCart(id);
   };
 
   return (
@@ -26,6 +30,7 @@ const Cart = () => {
             Precio total: $
             {(prod.precio * prod.cantidad).toLocaleString("es-AR")}
           </p>
+          <button onClick={() => handleRemoveItem(prod.id)}>Eliminar</button>
           <br />
         </div>
       ))}

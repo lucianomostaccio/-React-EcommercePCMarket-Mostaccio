@@ -10,6 +10,7 @@ const Item = ({ producto }) => {
         <h4>{producto.titulo}</h4>
         <p>Precio: ${producto.precio.toLocaleString("es-AR")}</p>
         <p>Marca: {toCapital(producto.marca)}</p>
+        <p>Stock: {producto.stock} unidades</p>
         <Link className="ver-mas" to={`/item/${producto.id}`}>
           Ver producto
         </Link>
