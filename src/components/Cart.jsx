@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const { cart, totalPrice, emptyCart } = useContext(CartContext);
 
   const handleEmpty = () => {
-    toast.error('Se ha vaciado el carrito');
+    toast.error("Se ha vaciado el carrito");
     emptyCart();
   };
 
@@ -22,7 +22,10 @@ const Cart = () => {
           <h3>{prod.titulo}</h3>
           <p>Cant: {prod.cantidad}</p>
           <p>Precio unit: ${prod.precio.toLocaleString("es-AR")}</p>
-          <p>Precio total: ${(prod.precio * prod.cantidad).toLocaleString("es-AR")}</p>
+          <p>
+            Precio total: $
+            {(prod.precio * prod.cantidad).toLocaleString("es-AR")}
+          </p>
           <br />
         </div>
       ))}

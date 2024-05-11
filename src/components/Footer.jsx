@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -25,7 +26,13 @@ const Footer = () => {
         </footer>
         <footer className="bottom">
           <div className="legal">
-            <span span="true"> © {currentYear} LUCIANO DAMIAN MOSTACCIO </span>
+            <span
+              // @ts-ignore
+              span="true"
+            >
+              {" "}
+              © {currentYear} LUCIANO DAMIAN MOSTACCIO{" "}
+            </span>
             <p> Términos y condiciones </p>
             <p> Política de privacidad </p>
           </div>

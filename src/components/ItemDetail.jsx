@@ -4,6 +4,7 @@ import { CartContext } from "../context/CartContext";
 import { toCapital } from "../helpers/toCapital";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React from "react";
 
 const ItemDetail = ({ item }) => {
   const { cart, addInCart } = useContext(CartContext);

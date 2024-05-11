@@ -1,13 +1,13 @@
+// @ts-nocheck
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { db } from "../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React from "react";
 
 const Contact = () => {
-
-
   const [contactId, setContactId] = useState("");
   const { register, handleSubmit } = useForm();
 
@@ -20,7 +20,7 @@ const Contact = () => {
 
     addDoc(contactsRef, contact).then((doc) => {
       setContactId(doc.id);
-      toast.success('Formulario enviado');
+      toast.success("Formulario enviado");
     });
   };
 
@@ -128,7 +128,7 @@ const Contact = () => {
               <textarea
                 id="mensaje"
                 name="mensaje"
-                rows="5"
+                rows={5}
                 required
                 {...register("mensaje")}
               ></textarea>

@@ -1,7 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 
+// @ts-ignore
 export const CartContext = createContext();
 
+// @ts-ignore
 const initialCart = JSON.parse(localStorage.getItem("cart")) || []; //if localStorage cart is empty, start an empty array
 
 export const CartProvider = ({ children }) => {
@@ -11,9 +13,7 @@ export const CartProvider = ({ children }) => {
     const addedItem = { ...item, cantidad };
 
     const newCart = [...cart];
-    const isInCart = newCart.find(
-      (producto) => producto.id === addedItem.id
-    );
+    const isInCart = newCart.find((producto) => producto.id === addedItem.id);
 
     if (isInCart) {
       isInCart.cantidad += cantidad;
@@ -40,6 +40,7 @@ export const CartProvider = ({ children }) => {
   }, [cart]); //also update it everytime the state changes
 
   return (
+    // @ts-ignore
     <CartContext.Provider
       value={{
         cart,

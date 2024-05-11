@@ -1,8 +1,10 @@
+// @ts-nocheck
 import CartWidget from "./CartWidget";
 import { Link } from "react-router-dom";
-import { collection, getDocs} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect, useState } from "react";
+import React from "react";
 
 const Navbar = () => {
   const [categories, setCategories] = useState([]);
@@ -26,7 +28,7 @@ const Navbar = () => {
     };
 
     fetchCategories();
-  },[]);
+  }, []);
 
   categories.sort();
 
@@ -41,16 +43,21 @@ const Navbar = () => {
             Inicio
           </Link>
         </li>
-        <li id="categoryToggler"> Categorias▾
-            <ul className="NavCategories">
-              {categories.map((item, id) => (
-                <li key={id}>
-                  <Link className="NavLink categoriesSubMenu" to={`/category/${item}`}>
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+        <li id="categoryToggler">
+          {" "}
+          Categorias▾
+          <ul className="NavCategories">
+            {categories.map((item, id) => (
+              <li key={id}>
+                <Link
+                  className="NavLink categoriesSubMenu"
+                  to={`/category/${item}`}
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </li>
         <li>
           <Link className="NavLink" to="/Contact">

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Fragment, useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { useForm } from "react-hook-form";
@@ -6,6 +7,7 @@ import { db } from "../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React from "react";
 
 const Checkout = () => {
   const [orderId, setOrderId] = useState("");
@@ -156,7 +158,7 @@ const Checkout = () => {
                 <textarea
                   id="mensaje"
                   name="mensaje"
-                  rows="5"
+                  rows={5}
                   required
                   {...register("mensaje")}
                 ></textarea>
