@@ -5,9 +5,10 @@ import { toCapital } from "../helpers/toCapital";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
+import AddToCartButton from "./AddToCartButton";
 
 const ItemDetail = ({ item }) => {
-  const { cart, addInCart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
   console.log("current cart:", cart);
   const [cantidad, setCantidad] = useState(1);
 
@@ -34,22 +35,8 @@ const ItemDetail = ({ item }) => {
             cantidad={cantidad}
             handleSum={handleSum}
             handleSubtract={handleSubtract}
-            handleAdd={() => {
-              if (item.stock > 0) {
-                toast.success("Producto agregado al carrito", {
-                  position: "top-left",
-                });
-                addInCart(item, cantidad);
-              } else {
-                toast.error("Producto sin stock", {
-                  position: "top-left",
-                });
-              }
-            }}
           />
-          {/* <button disabled={item.stock <= 0} className="agregar-al-carrito">
-            Agregar al carrito
-          </button> */}
+          <AddToCartButton item={item} cantidad={cantidad} />
         </div>
       </div>
     </div>

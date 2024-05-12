@@ -1,6 +1,6 @@
 import React from "react";
 
-const ItemCount = ({ cantidad, handleSubtract, handleSum, handleAdd }) => {
+const ItemCount = ({ cantidad, handleSubtract, handleSum }) => {
   return (
     <div>
       <div className="item-count">
@@ -8,9 +8,6 @@ const ItemCount = ({ cantidad, handleSubtract, handleSum, handleAdd }) => {
         <p>{cantidad}</p>
         <button onClick={handleSum}>+</button>
       </div>
-      <button className="agregar-al-carrito" onClick={handleAdd}>
-        Agregar al carrito
-      </button>
     </div>
   );
 };

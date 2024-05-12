@@ -24,13 +24,13 @@ const Cart = () => {
           <br />
           <img src={prod.imagen} alt={prod.titulo} id="fotoCarrito" />
           <h3>{prod.titulo}</h3>
-          <p>Cant: {prod.cantidad}</p>
+            <p>Cant: {prod.cantidad}</p>
           <p>Precio unit: ${prod.precio.toLocaleString("es-AR")}</p>
           <p>
             Precio total: $
             {(prod.precio * prod.cantidad).toLocaleString("es-AR")}
           </p>
-          <button onClick={() => handleRemoveItem(prod.id)}>Eliminar</button>
+          <button id="removeItem" onClick={() => handleRemoveItem(prod.id)}>Eliminar Producto</button>
           <br />
         </div>
       ))}

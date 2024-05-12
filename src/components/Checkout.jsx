@@ -2,16 +2,20 @@
 import { Fragment, useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { useForm } from "react-hook-form";
-
 import { db } from "../firebase/config";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  increment,
+  writeBatch,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 
 const Checkout = () => {
   const [orderId, setOrderId] = useState("");
-
   const { cart, totalPrice, emptyCart } = useContext(CartContext);
 
   const {
@@ -21,21 +25,37 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
 
-  const buy = (data) => {
-    if (data.email === data.confirmarEmail) {
-      const order = {
-        cliente: data,
-        productos: cart,
-        total: totalPrice(),
-      };
+  const buy = async (data) => {
+    if (data.email !== data.confirmarEmail) {
+      toast.error("Los emails no coinciden");
+      return; // Stop execution if emails do not match
+    }
 
-      const ordersRef = collection(db, "pedidos");
+    const order = {
+      cliente: data,
+      productos: cart,
+      total: totalPrice(),
+    };
 
-      addDoc(ordersRef, order).then((doc) => {
-        setOrderId(doc.id);
-        emptyCart();
-        toast.success("¡Compra realizada con éxito!");
+    const ordersRef = collection(db, "pedidos");
+    const batch = writeBatch(db); // Use batch to perform all writes in one transaction
+
+    try {
+      const docRef = await addDoc(ordersRef, order); // Await the promise to resolve
+      setOrderId(docRef.id);
+      toast.success("¡Compra realizada con éxito!");
+
+      // Batch update stock
+      cart.forEach((item) => {
+        const itemRef = doc(db, "productos", item.id);
+        batch.update(itemRef, { stock: increment(-item.cantidad) });
       });
+
+      await batch.commit(); // Ensure batch commit completes
+      emptyCart(); // Only empty the cart after all operations are successful
+    } catch (error) {
+      console.error("Error completing the transaction: ", error);
+      toast.error("Error al procesar la compra.");
     }
   };
 
@@ -122,13 +142,20 @@ const Checkout = () => {
                 <input
                   type="phone"
                   id="phone"
+                  // @ts-ignore
                   name="phone"
                   required
                   {...register("telefono")}
                 />
 
                 <label htmlFor="pais">País:</label>
-                <select id="pais" name="pais" required {...register("pais")}>
+                <select
+                  id="pais"
+                  // @ts-ignore
+                  name="pais"
+                  required
+                  {...register("pais")}
+                >
                   <option value="">Seleccione un país</option>
                   <option value="Argentina">Argentina</option>
                   <option value="Bolivia">Bolivia</option>
@@ -154,9 +181,10 @@ const Checkout = () => {
                   <option value="Venezuela">Venezuela</option>
                 </select>
 
-                <label htmlFor="mensaje">Mensaje:</label>
+                <label htmlFor="mensaje">Instrucciones para el pedido:</label>
                 <textarea
                   id="mensaje"
+                  // @ts-ignore
                   name="mensaje"
                   rows={5}
                   required
